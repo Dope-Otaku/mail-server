@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import  check_password_hash
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
@@ -46,14 +46,14 @@ def register():
         return jsonify(message="User already exists"), 400
 
     # Create new user
-    hashed_password = bcrypt.generate_password_hash(password)
+    hashed_password = bcrypt.generate_password_hash(password.encode('utf-8')).decode('utf-8')
     new_user = User(username=username, email=email, password=hashed_password, role=role)
     db.session.add(new_user)
     db.session.commit()
 
     return jsonify(message="User registered successfully"), 201
 
-# Login Page
+#login page
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
@@ -62,7 +62,7 @@ def login():
 
     # Check if user exists
     user = User.query.filter_by(email=email).first()
-    if user and check_password_hash(user.password, password):
+    if user and bcrypt.check_password_hash(user.password, password.encode('utf-8')):
         access_token = create_access_token(identity=user.id)
         return jsonify(access_token=access_token), 200
 

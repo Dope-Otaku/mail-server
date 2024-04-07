@@ -1,6 +1,9 @@
 # models.py
-
 from app import db
+from uuid import uuid4
+
+def get_uuid():
+    return uuid4().hex
 
 class Society(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -23,8 +26,7 @@ class Admin(db.Model):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.Text, nullable=False)
     role = db.Column(db.String(50), nullable=False)  # To store user role (society, admin, resident)
-
-# Add more models as needed
+    # Add more models as needed

@@ -1,6 +1,4 @@
 from app import app, db
-
-# Import models here to ensure SQLAlchemy can see them without causing circular import issues
 from models import User, Society, Admin
 
 def create_database():

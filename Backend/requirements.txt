@@ -2,3 +2,8 @@ flask
 flask_sqlalchemy
 psycopg2
 python-dotenv
+jwt
+flask_bcrypt
+flask_cors
+Flask-JWT-Extended
+uuid

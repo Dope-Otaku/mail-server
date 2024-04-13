@@ -32,11 +32,24 @@ const RegisterPage = () => {
         }
       );
 
-      if (response.status === 200) {
-        navigate("/login"); // Navigate to "/" if status code is 200
+      if (response.status === 201) {
+        navigate("/society-onboarding"); // Redirect to society dashboard on success
       }
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 401) {
+        setError("Incorrect credentials");
+        setEmail("");
+        setPassword("");
+        setRetypePassword("");
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleRegister();
     }
   };
 
@@ -117,6 +130,7 @@ const RegisterPage = () => {
                   value={retypePassword}
                   onChange={(e) => setRetypePassword(e.target.value)}
                   placeholder="Re-Type Password"
+                  onKeyDown={handleKeyPress}
                 />
               </div>
               <div className="input-group mb-5 d-flex justify-content-between">
@@ -178,16 +192,6 @@ const RegisterPage = () => {
           </div>
         </div>
       </div>
-
-      {/* <h2>Register</h2>
-      
-      <select value={role} onChange={(e) => setRole(e.target.value)}>
-        <option value="">Select Role</option>
-        <option value="society">Society</option>
-        <option value="admin">Admin</option>
-        <option value="resident">Resident</option>
-      </select>
-      <button onClick={handleRegister}>Register</button> */}
     </>
   );
 };

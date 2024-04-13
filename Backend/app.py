@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from werkzeug.security import check_password_hash
+from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
@@ -10,6 +11,7 @@ import random
 import string
 from flask_mail import Mail, Message
 import jwt
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 CORS(app)
@@ -40,6 +42,11 @@ db = SQLAlchemy(app)
 
 # Import models
 from models import User, Society, Admin
+
+
+#migrate db
+migrate = Migrate(app, db)
+
 
 # Landing Page
 @app.route('/')
@@ -110,34 +117,34 @@ def forgot_password():
 
     return jsonify(message="Temporary password sent to your email"), 200
 
-# Society Onboarding Form
 @app.route('/society-onboarding', methods=['POST'])
-@jwt_required()  # Require JWT token for this route
+@jwt_required()
 def society_onboarding():
     try:
-        # Get the JWT token from the Authorization header
         auth_header = request.headers.get("Authorization")
         if not auth_header:
             return jsonify(message="Authorization header missing"), 401
         token = auth_header.split()[1] if len(auth_header.split()) > 1 else None
 
-        # Decode the token to get the user's id (identity)
         user_id = get_jwt_identity()
-
-        # Fetch the user based on the user_id
         user = User.query.get(user_id)
 
         if user:
             role = user.role
-            # Save society data to the database
             data = request.json
+
+            print("Received data:", data)
+
+            if not all(key in data for key in ['name', 'address', 'num_buildings', 'num_admins', 'flats_per_building', 'overall_flats']):
+                return jsonify(message="Missing required fields"), 422
+
             society = Society(
-                society_name=data['societyName'],
+                name=data['name'],
                 address=data['address'],
-                num_buildings=data['numBuildings'],
-                num_admins=data['numAdmins'],
-                flats_per_building=data['flatsPerBuilding'],
-                overall_flats=data['overallFlats'],
+                num_buildings=int(data['num_buildings']),
+                num_admins=int(data['num_admins']),
+                flats_per_building=int(data['flats_per_building']),
+                overall_flats=int(data['overall_flats']),
                 user_id=user.id
             )
             db.session.add(society)
@@ -147,12 +154,15 @@ def society_onboarding():
         else:
             return jsonify(message="User not found"), 404
 
-    except jwt.ExpiredSignatureError:
+    except ExpiredSignatureError:
         return jsonify(message="Token has expired"), 401
-    except jwt.InvalidTokenError:
+
+    except InvalidTokenError:
         return jsonify(message="Invalid token"), 401
     except Exception as e:
+        print("Error:", e)
         return jsonify(message=str(e)), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

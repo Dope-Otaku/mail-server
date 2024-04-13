@@ -3,12 +3,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const SocietyOnboardingForm = () => {
-  const [societyName, setSocietyName] = useState("");
+  const [name, setSocietyName] = useState("");
   const [address, setAddress] = useState("");
-  const [numBuildings, setNumBuildings] = useState("");
-  const [numAdmins, setNumAdmins] = useState("");
-  const [flatsPerBuilding, setFlatsPerBuilding] = useState("");
-  const [overallFlats, setOverallFlats] = useState("");
+  const [num_buildings, setNumBuildings] = useState("");
+  const [num_admins, setNumAdmins] = useState("");
+  const [flats_per_building, setFlatsPerBuilding] = useState("");
+  const [overall_flats, setOverallFlats] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -23,12 +23,12 @@ const SocietyOnboardingForm = () => {
 
   const handleOnboarding = async () => {
     if (
-      !societyName ||
+      !name ||
       !address ||
-      !numBuildings ||
-      !numAdmins ||
-      !flatsPerBuilding ||
-      !overallFlats
+      !num_buildings ||
+      !num_admins ||
+      !flats_per_building ||
+      !overall_flats
     ) {
       setError("Please fill in all the details. All fields are mandatory.");
       return;
@@ -38,12 +38,12 @@ const SocietyOnboardingForm = () => {
       const response = await axios.post(
         "http://localhost:5000/society-onboarding",
         {
-          societyName,
+          name,
           address,
-          numBuildings,
-          numAdmins,
-          flatsPerBuilding,
-          overallFlats,
+          num_buildings: num_buildings,
+          num_admins: num_admins,
+          flats_per_building: flats_per_building,
+          overall_flats: overall_flats,
         },
         {
           headers: {
@@ -86,7 +86,7 @@ const SocietyOnboardingForm = () => {
             <input
               type="text"
               className="form-control form-control-lg bg-light fs-6"
-              value={societyName}
+              value={name}
               onChange={(e) => setSocietyName(e.target.value)}
               placeholder="Society Name"
             />
@@ -104,7 +104,7 @@ const SocietyOnboardingForm = () => {
             <input
               type="number"
               className="form-control form-control-lg bg-light fs-6"
-              value={numBuildings}
+              value={num_buildings}
               onChange={(e) => setNumBuildings(e.target.value)}
               placeholder="Number of Buildings"
             />
@@ -113,7 +113,7 @@ const SocietyOnboardingForm = () => {
             <input
               type="number"
               className="form-control form-control-lg bg-light fs-6"
-              value={numAdmins}
+              value={num_admins}
               onChange={(e) => setNumAdmins(e.target.value)}
               placeholder="Number of Admins"
             />
@@ -122,7 +122,7 @@ const SocietyOnboardingForm = () => {
             <input
               type="number"
               className="form-control form-control-lg bg-light fs-6"
-              value={flatsPerBuilding}
+              value={flats_per_building}
               onChange={(e) => setFlatsPerBuilding(e.target.value)}
               placeholder="Flats Per Building"
             />
@@ -131,7 +131,7 @@ const SocietyOnboardingForm = () => {
             <input
               type="number"
               className="form-control form-control-lg bg-light fs-6"
-              value={overallFlats}
+              value={overall_flats}
               onChange={(e) => setOverallFlats(e.target.value)}
               placeholder="Overall Flats"
             />

@@ -21,7 +21,7 @@ jwt = JWTManager(app)
 # Configure SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('POSTGRES_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = True  #just for testing only, remove it from production code!
 db = SQLAlchemy(app)
 
 # Import models

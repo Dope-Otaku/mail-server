@@ -1,7 +1,7 @@
-import { useState } from "react";
+import "../css/auth.css";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../css/auth.css";
 import gicon from "../assets/1.png";
 
 const LoginPage = () => {
@@ -18,7 +18,6 @@ const LoginPage = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
           },
         }
       );
@@ -36,11 +35,35 @@ const LoginPage = () => {
       }
     }
   };
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleLogin();
     }
   };
+
+  const handleRememberMe = (isChecked) => {
+    if (isChecked) {
+      localStorage.setItem("rememberMe", "true");
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
+    } else {
+      localStorage.removeItem("rememberMe");
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+    }
+  };
+
+  // Check if "Remember Me" is checked and populate email and password fields
+  useEffect(() => {
+    const rememberMe = localStorage.getItem("rememberMe") === "true";
+    if (rememberMe) {
+      const storedEmail = localStorage.getItem("email") || "";
+      const storedPassword = localStorage.getItem("password") || "";
+      setEmail(storedEmail);
+      setPassword(storedPassword);
+    }
+  }, []);
 
   return (
     <>
@@ -106,23 +129,20 @@ const LoginPage = () => {
                 />
               </div>
               <div className="input-group mb-5 d-flex justify-content-between">
-                <div className="form-check">
+                <div className="form-check mb-3">
                   <input
                     type="checkbox"
                     className="form-check-input"
-                    id="formCheck"
+                    id="rememberMe"
+                    onChange={(e) => handleRememberMe(e.target.checked)}
                   />
-                  <label
-                    htmlFor="formCheck"
-                    className="form-check-label text-secondary"
-                  >
-                    <small>Remember Me</small>
+                  <label htmlFor="rememberMe" className="form-check-label">
+                    Remember Me
                   </label>
                 </div>
-                <div className="forgot">
-                  <small>
-                    <a href="#">Forgot Password?</a>
-                  </small>
+                <div className="mb-3">
+                  <a href="#">Forgot Password?</a>
+                  {/*use thus instead - /forgot-password*/}
                 </div>
               </div>
               {/* Display error message */}
@@ -133,9 +153,6 @@ const LoginPage = () => {
                 >
                   {error}
                 </div>
-                // <div className="alert alert-primary text-center" role="alert">
-                //   {error}
-                // </div>
               )}
               <div className="input-group mb-3 align-center">
                 <button

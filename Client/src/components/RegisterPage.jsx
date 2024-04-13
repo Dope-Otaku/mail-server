@@ -33,16 +33,19 @@ const RegisterPage = () => {
       );
 
       if (response.status === 201) {
+        // Save the token to localStorage
+        const { access_token } = response.data;
+        localStorage.setItem("token", access_token);
+
+        console.log(role);
         navigate("/society-onboarding"); // Redirect to society dashboard on success
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setError("Incorrect credentials");
-        setEmail("");
-        setPassword("");
-        setRetypePassword("");
+      if (error.response && error.response.status === 400) {
+        setError(error.response.data.message); // Display the error message from the backend
       } else {
         console.error(error);
+        setError("Failed to register. Please try again.");
       }
     }
   };

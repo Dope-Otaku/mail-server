@@ -1,5 +1,6 @@
 // LandingPage.js
 import logoUrl from "../assets/Logo.svg";
+import heroImage from "../assets/heroImage.svg";
 import "../css/LandingPage.css";
 
 const LandingPage = () => {
@@ -52,7 +53,7 @@ const LandingPage = () => {
       </nav>
 
       {/* // Hero Section */}
-      <div className="hero">
+      <section className="hero">
         <div className="container">
           <div className="row">
             <div className="col-md-6">
@@ -64,10 +65,21 @@ const LandingPage = () => {
                 This is a random text and thie web app is under 24x7 Active
                 Support Line!
               </div>
+              <div className="cta">
+                <a href="/login" className="btn btn-primary shadow-none">
+                  Login
+                </a>
+                <a href="#" className="btn btn-secondary shadow-none ms-3">
+                  See Pricing!
+                </a>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <img src={heroImage} alt="heroImage" />
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };

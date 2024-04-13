@@ -11,6 +11,15 @@ body{
     width: 930px;
 }
 
+/*------------ Register DropDown container ------------*/
+.drop-item-c:hover {
+    background-color: #e9ecef; 
+    cursor: pointer;
+  }
+  .form-select{
+    outline: black;
+  }
+
 /*------------ Right box ------------*/
 
 .right-box{

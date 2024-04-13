@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../css/login.css";
+import "../css/auth.css";
 import gicon from "../assets/1.png";
 
 const LoginPage = () => {
@@ -34,6 +34,11 @@ const LoginPage = () => {
       } else {
         console.error("error", error);
       }
+    }
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
     }
   };
 
@@ -87,6 +92,7 @@ const LoginPage = () => {
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={handleKeyPress}
                 />
               </div>
               <div className="input-group mb-1">
@@ -96,6 +102,7 @@ const LoginPage = () => {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={handleKeyPress}
                 />
               </div>
               <div className="input-group mb-5 d-flex justify-content-between">

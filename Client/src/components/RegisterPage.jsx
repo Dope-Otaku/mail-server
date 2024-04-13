@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import gicon from "../assets/1.png";
 import gimage from "../assets/google.png";
-import "../css/login.css";
+import "../css/auth.css";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -80,7 +80,7 @@ const RegisterPage = () => {
           <div className="col-md-6 right-box">
             <div className="row align-items-center">
               <div className="header-text mb-4">
-                <h2>New Membaer?</h2>
+                <h2>New Member?</h2>
                 <p>We are happy to have you!</p>
               </div>
               <div className="input-group mb-3">
@@ -127,12 +127,19 @@ const RegisterPage = () => {
                     onChange={(e) => setRole(e.target.value)}
                   >
                     <option value="">Select Role</option>
-                    <option value="society">Society</option>
-                    <option value="admin">Admin</option>
-                    <option value="resident">Resident</option>
+                    <option className="drop-item-c" value="society">
+                      Society
+                    </option>
+                    <option className="drop-item-c" value="admin">
+                      Admin
+                    </option>
+                    <option className="drop-item-c" value="resident">
+                      Resident
+                    </option>
                   </select>
                 </div>
               </div>
+
               {/* Display error message */}
               {error && (
                 <div

@@ -1,7 +1,6 @@
-// LandingPage.js
 import logoUrl from "../assets/Logo.svg";
 import heroImage from "../assets/heroImage.svg";
-import "../css/LandingPage.css";
+import "../css/main.css";
 
 const LandingPage = () => {
   return (

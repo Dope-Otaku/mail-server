@@ -44,7 +44,7 @@ const LandingPage = () => {
                 Contact Us
               </a>
             </div>
-            <a href="#" className="btn btn-primary shadow-none">
+            <a href="/register" className="btn btn-primary shadow-none">
               Get Started!
             </a>
           </div>
@@ -74,7 +74,7 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="col-md-6">
-              <img src={heroImage} alt="heroImage" />
+              <img src={heroImage} className="w-100" alt="heroImage" />
             </div>
           </div>
         </div>
@@ -87,6 +87,7 @@ export default LandingPage;
 
 {
   /* <h1>Welcome to Our Society Management System</h1>
+  
       <p>Please login or register to continue.</p>
       <button
         onClick={() => {

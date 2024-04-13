@@ -1,15 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Correct import statement
+import { useNavigate } from "react-router-dom";
 import "../css/login.css";
 import gicon from "../assets/1.png";
-import gimage from "../assets/google.png";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -140,20 +139,22 @@ const LoginPage = () => {
                 </button>
               </div>
               <div className="input-group mb-3">
-                <button className="btn btn-lg btn-light w-100 fs-6">
-                  <img
-                    src={gimage}
+                <button
+                  className="btn btn-lg btn-light w-100 fs-6"
+                  onClick={() => navigate("/")}
+                >
+                  <i
+                    className="bx bx-home me-2"
                     style={{ width: "20px" }}
-                    className="me-2"
-                    alt="Google Icon"
-                  />
-                  <small>Sign In with Google</small>
+                    alt="Home Icon"
+                  ></i>
+                  <small>Back to Home!</small>
                 </button>
               </div>
               <div className="row">
                 <small>
                   {" "}
-                  Don't have an account? <a href="/register">Sign Up</a>
+                  Don&apos;t have an account? <a href="/register">Sign Up</a>
                 </small>
               </div>
             </div>

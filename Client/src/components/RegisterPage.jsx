@@ -38,7 +38,11 @@ const RegisterPage = () => {
         localStorage.setItem("token", access_token);
 
         console.log(role);
-        navigate("/society-onboarding"); // Redirect to society dashboard on success
+        if (role === "society") {
+          navigate("/society-onboarding"); // Redirect to society dashboard on success
+        } else {
+          navigate("/login");
+        }
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {

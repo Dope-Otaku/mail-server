@@ -9,6 +9,9 @@ class Society(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200), nullable=False)
+    #name of the chairman or key contact persoon
+    #mobile no, email, !=num_buildings, !=flats
+    #
     num_buildings = db.Column(db.Integer, nullable=False)
     num_admins = db.Column(db.Integer, nullable=False)
     flats_per_building = db.Column(db.Integer, nullable=False)

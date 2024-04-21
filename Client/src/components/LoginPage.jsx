@@ -21,9 +21,27 @@ const LoginPage = () => {
           },
         }
       );
-
+      console.log("Response data:", response.data);
       if (response.status === 200) {
-        navigate("/"); // Navigate to "/" if status code is 200
+        const { access_token } = response.data; // Extract the access_token
+        localStorage.setItem("access_token", access_token); // Store the access_token if needed
+
+        switch (
+          response.data.role // Access the role directly from the response data
+        ) {
+          case "society":
+            navigate("/society-dashboard");
+            break;
+          case "admin":
+            navigate("/admin-dashboard");
+            break;
+          case "resident":
+            navigate("/resident-dashboard");
+            break;
+          default:
+            navigate("/");
+            break;
+        }
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {

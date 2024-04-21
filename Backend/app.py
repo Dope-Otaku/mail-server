@@ -12,6 +12,7 @@ import string
 from flask_mail import Mail, Message
 import jwt
 from flask_migrate import Migrate
+from datetime import timedelta
 
 app = Flask(__name__)
 CORS(app)
@@ -42,6 +43,7 @@ db = SQLAlchemy(app)
 
 # Import models
 from models import User, Society, Admin
+from flask import redirect, url_for
 
 
 #migrate db
@@ -87,10 +89,21 @@ def login():
     # Check if user exists
     user = User.query.filter_by(email=email).first()
     if user and bcrypt.check_password_hash(user.password, password.encode('utf-8')):
-        access_token = create_access_token(identity=user.id)
-        return jsonify(access_token=access_token), 200
+        access_token = create_access_token(identity=user.id, expires_delta=timedelta(minutes=5))
+        return jsonify(access_token=access_token, role=user.role), 200
 
     return jsonify(message="Invalid email or password"), 401
+
+# Validate Token Endpoint
+@app.route('/validate-token', methods=['POST'])
+@jwt_required()
+def validate_token():
+    try:
+        return jsonify(message="Token is valid"), 200
+    except ExpiredSignatureError:
+        return jsonify(message="Token has expired"), 401
+    except InvalidTokenError:
+        return jsonify(message="Invalid token"), 401
 
 # forgot-password
 @app.route('/forgot-password', methods=['POST'])
@@ -162,6 +175,8 @@ def society_onboarding():
     except Exception as e:
         print("Error:", e)
         return jsonify(message=str(e)), 500
+
+
 
 
 if __name__ == '__main__':
